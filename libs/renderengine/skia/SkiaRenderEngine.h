@@ -63,7 +63,7 @@ class BlurFilter;
 class SkiaRenderEngine : public RenderEngine {
 public:
     static std::unique_ptr<SkiaRenderEngine> create(const RenderEngineCreationArgs& args);
-    SkiaRenderEngine(RenderEngineType type, PixelFormat pixelFormat, bool supportsBackgroundBlur);
+    SkiaRenderEngine(Threaded, PixelFormat pixelFormat, bool supportsBackgroundBlur);
     ~SkiaRenderEngine() override;
 
     std::future<void> primeCache(bool shouldPrimeUltraHDR) override final;
@@ -100,6 +100,8 @@ protected:
     GrDirectContext* getActiveGrContext();
 
     bool isProtected() const { return mInProtectedContext; }
+
+    virtual renderengine::RenderEngine::GraphicsApi graphicsApi() = 0;
 
     // Implements PersistentCache as a way to monitor what SkSL shaders Skia has
     // cached.

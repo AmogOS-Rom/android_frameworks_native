@@ -27,8 +27,6 @@ namespace skia {
 
 class SkiaVkRenderEngine : public SkiaRenderEngine {
 public:
-    // Returns false if Vulkan implementation can't support SkiaVkRenderEngine.
-    static bool canSupportSkiaVkRenderEngine();
     static std::unique_ptr<SkiaVkRenderEngine> create(const RenderEngineCreationArgs& args);
     ~SkiaVkRenderEngine() override;
 
@@ -43,6 +41,8 @@ protected:
     void waitFence(GrDirectContext* grContext, base::borrowed_fd fenceFd) override;
     base::unique_fd flushAndSubmit(GrDirectContext* context) override;
     void appendBackendSpecificInfoToDump(std::string& result) override;
+
+    renderengine::RenderEngine::GraphicsApi graphicsApi() override;
 
 private:
     SkiaVkRenderEngine(const RenderEngineCreationArgs& args);
